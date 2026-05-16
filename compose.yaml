@@ -1,0 +1,10 @@
+name: personal-workout-tracker
+
+services:
+  db:
+    image: postgres:17
+    env_file: .local.env
+  backend:
+    image: server
+    build: ./server
+    env_file: .local.env

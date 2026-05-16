@@ -63,5 +63,3 @@ CREATE TABLE IF NOT EXISTS planned_sets (
     planned_durations_in_seconds INTEGER,
     routine_exercise_id  INTEGER NOT NULL REFERENCES routine_exercises(id)
 );
-
--- Think if we need the routine_exercises, if we get rid of it, the sets can reference the exercises.

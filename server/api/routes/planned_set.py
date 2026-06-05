@@ -1,9 +1,10 @@
 from fastapi import APIRouter
+from server.data.models.models import PlannedSet
 
 router = APIRouter(prefix="/planned-set")
 
 @router.post("/")
-def post_planned_set():
+def post_planned_set(planned_set: PlannedSet):
     return "post"
 
 @router.get("/{id}")

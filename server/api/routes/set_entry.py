@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-
+from server.data.models.models import CompletedSetEntry
 router = APIRouter(prefix="/set-entry")
 
 @router.post("/")
-def post_set_entry():
+def post_set_entry(set_entry: CompletedSetEntry):
     return "post"
 
 @router.put("/{id}")

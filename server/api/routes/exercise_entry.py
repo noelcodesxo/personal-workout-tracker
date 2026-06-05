@@ -1,9 +1,10 @@
 from fastapi import APIRouter
+from server.data.models.models import ExerciseEntry
 
 router = APIRouter(prefix="/exercise-entry")
 
 @router.post("/")
-def post_exercise_entry():
+def post_exercise_entry(entry: ExerciseEntry):
     return "post"
 
 @router.get("/workout/{workout_id}")

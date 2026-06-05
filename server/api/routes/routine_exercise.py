@@ -1,9 +1,10 @@
 from fastapi import APIRouter
+from server.data.models.models import RoutineExercise
 
 router = APIRouter(prefix="/routine-exercise")
 
 @router.post("/")
-def post_routine_exercise():
+def post_routine_exercise(exercise: RoutineExercise):
     return "post"
 
 @router.get("/routine/{routine_id}")

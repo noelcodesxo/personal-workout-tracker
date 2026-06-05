@@ -51,7 +51,7 @@ class RoutineExercise():
     exercise: Exercise
 
 @dataclass
-class PlannedSets():
+class PlannedSet():
     planned_weight: int
     planned_reps: int
     planned_durations_in_seconds: int

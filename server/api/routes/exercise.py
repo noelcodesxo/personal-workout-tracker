@@ -4,7 +4,7 @@ from server.data.models.models import Exercise
 router = APIRouter(prefix="/exercise")
 
 @router.post("/")
-def post_exercise():
+def post_exercise(exercise: Exercise):
     return "post"
 
 @router.put("/{id}")

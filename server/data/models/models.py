@@ -11,12 +11,12 @@ class User():
 class Exercise():
     name: str
 
-class WorkoutType(Enum):
-    PULL = 1
-    PUSH = 2
-    LEGS = 3
-    CARDIO = 4
-    CORE = 5
+class WorkoutType(str, Enum):
+    PULL = "pull"
+    PUSH = "push"
+    LEGS = "legs"
+    CARDIO = "cardio"
+    CORE = "core"
 
 @dataclass
 class Routine():

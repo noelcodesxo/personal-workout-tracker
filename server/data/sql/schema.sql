@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS exercises (
 CREATE TABLE IF NOT EXISTS routines (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    notes TEXT NOT NULL,
+    notes TEXT,
     active BOOL NOT NULL DEFAULT true,
     workout_type workout_types NOT NULL
 );
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS workouts (
     workout_start_time TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     workout_end_time TIMESTAMPTZ,
     user_id INTEGER NOT NULL REFERENCES users(id),
-    routine_id INTEGER NOT NULL REFERENCES routines(id)
+    routine_id INTEGER REFERENCES routines(id)
 );
 
 CREATE TABLE IF NOT EXISTS exercise_entries (

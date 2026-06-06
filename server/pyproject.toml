@@ -3,10 +3,11 @@ name = "personal-workout-tracker"
 version = "0.1.0"
 description = "Server for a personal workout tracker"
 readme = "README.md"
-entrypoint="main:app"
+entrypoint="main"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.136.1",
+    "psycopg2-binary>=2.9.12",
     "pydantic>=2.13.4",
     "sqlmodel>=0.0.38",
 ]

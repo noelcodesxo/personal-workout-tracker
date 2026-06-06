@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from server.data.models.models import WorkoutType, Workout
+from data.models.models import WorkoutType, Workout
 router = APIRouter(prefix="/workout")
 
 @router.post("/")

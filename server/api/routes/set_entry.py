@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from server.data.models.models import CompletedSetEntry
+from data.models.models import CompletedSetEntry
 router = APIRouter(prefix="/set-entry")
 
 @router.post("/")

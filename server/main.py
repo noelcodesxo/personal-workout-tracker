@@ -1,5 +1,6 @@
+import uvicorn
 from fastapi import FastAPI
-from server.api.routes import (
+from api.routes import (
     workout,
     exercise,
     routine,
@@ -8,6 +9,7 @@ from server.api.routes import (
     routine_exercise,
     planned_set,
 )
+from data import init_db
 
 app = FastAPI()
 
@@ -20,5 +22,9 @@ app.include_router(routine_exercise.router)
 app.include_router(planned_set.router)
 
 @app.get("/health")
-def main():
+def health():
     return ""
+
+if __name__ == "__main__":
+    init_db()
+    uvicorn.run(app, host="0.0.0.0", port=8000)

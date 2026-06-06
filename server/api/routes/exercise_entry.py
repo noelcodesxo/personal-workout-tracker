@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from server.data.models.models import ExerciseEntry
+from data.models.models import ExerciseEntry
 
 router = APIRouter(prefix="/exercise-entry")
 

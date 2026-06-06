@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from server.data.models.models import PlannedSet
+from data.models.models import PlannedSet
 
 router = APIRouter(prefix="/planned-set")
 

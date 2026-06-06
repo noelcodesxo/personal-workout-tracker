@@ -4,7 +4,11 @@ services:
   db:
     image: postgres:17
     env_file: .local.env
+    ports:
+      - 5432:5432
   backend:
     image: server
     build: ./server
     env_file: .local.env
+    ports:
+      - 8000:8000

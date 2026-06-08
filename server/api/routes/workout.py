@@ -1,10 +1,11 @@
 from fastapi import APIRouter
-from data.models.models import WorkoutType, Workout
+from data.models.table_models import WorkoutType, Workout
 router = APIRouter(prefix="/workout")
 
 @router.post("/")
 def post_workout(workout: Workout):
-    return "post"
+    # Save it to db
+    return ""
 
 @router.put("/{id}")
 def put_workout(id: int):

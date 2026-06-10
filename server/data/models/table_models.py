@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from enum import Enum
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 
 # How to use this? It's not a table
 class WorkoutType(str, Enum):
@@ -28,6 +28,7 @@ class Routine(SQLModel, table=True):
     notes: str = ""
     active: bool = True
     workout_type: WorkoutType
+    routine_exercises: list["RoutineExercise"] = Relationship(back_populates="routine")
 
 class Workout(SQLModel, table=True):
     __tablename__ = "workouts"
@@ -58,6 +59,8 @@ class RoutineExercise(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     routine_id: int = Field(foreign_key="routines.id")
     exercise_id: int = Field(foreign_key="exercises.id")
+    routine: Routine = Relationship(back_populates="routine_exercises") # I'm choosing to NOT have a ON DELETE CASCASE here in order to preserve history overtime. Can always edit this later.
+    exercise: Exercise = Relationship()
 
 class PlannedSet(SQLModel, table=True):
     __tablename__ = "planned_sets"

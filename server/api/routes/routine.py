@@ -1,8 +1,7 @@
 from fastapi import APIRouter
-from data import DBClient, Session
-from sqlmodel import select
-from data.models.table_models import WorkoutType, Routine, Exercise, RoutineExercise
-from data.models.response_models import RoutineRead, ExerciseRead
+from data import DBClient
+from data.models.table_models import WorkoutType
+from data.models.routine import RoutineWrite
 
 from data.services.routine_service import RoutineService
 
@@ -13,16 +12,16 @@ with db_client.get_session() as _session:
     routine_service = RoutineService(_session)
 
 @router.post("/")
-def post_routine(routine: Routine, exercises: list[Exercise]):
-    return routine_service.save_routine(routine=routine, exercises=exercises)
+def post_routine(routine: RoutineWrite):
+    return routine_service.save_routine(routine_write=routine)
 
 @router.get("/")
 def get_all_routines():
     return routine_service.get_all_routines()
 
 @router.put("/")
-def put_routine(routine: Routine, exercises: list[Exercise]):
-    return routine_service.update_routine(routine=routine, exercises=exercises)
+def put_routine(routine: RoutineWrite):
+    return routine_service.update_routine(routine_write=routine)
 
 @router.get("/{name}")
 def get_routine_by_name(name: str):

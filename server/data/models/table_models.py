@@ -61,11 +61,13 @@ class RoutineExercise(SQLModel, table=True):
     exercise_id: int = Field(foreign_key="exercises.id")
     routine: Routine = Relationship(back_populates="routine_exercises") # I'm choosing to NOT have a ON DELETE CASCASE here in order to preserve history overtime. Can always edit this later.
     exercise: Exercise = Relationship()
+    planned_sets: list["PlannedSet"] = Relationship(back_populates="routine_exercise")
 
 class PlannedSet(SQLModel, table=True):
     __tablename__ = "planned_sets"
     id: int | None = Field(default=None, primary_key=True)
-    planned_weight: int = None
-    planned_reps: int = None
-    planned_durations_in_seconds: int = None
+    planned_weight: int | None = None
+    planned_reps: int | None = None
+    planned_durations_in_seconds: int | None = None
     routine_exercise_id: int | None = Field(default=None, foreign_key="routine_exercises.id")
+    routine_exercise: RoutineExercise = Relationship(back_populates="planned_sets")

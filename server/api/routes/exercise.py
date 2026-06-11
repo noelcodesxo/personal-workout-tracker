@@ -1,24 +1,30 @@
 from fastapi import APIRouter
-from data.models.models import Exercise
+from data import DBClient
+from data.models.exercise import ExerciseWrite
+from data.services.exercise_service import ExerciseService
 
 router = APIRouter(prefix="/exercise")
 
+db_client = DBClient()
+with db_client.get_session() as _session:
+    exercise_service = ExerciseService(_session)
+
 @router.post("/")
-def post_exercise(exercise: Exercise):
-    return "post"
+def post_exercise(exercise: ExerciseWrite):
+    return exercise_service.create_exercise(exercise.name)
 
-@router.put("/{id}")
-def put_exercise(id: int):
-    return str.format("put, {}", id)
+@router.get("/")
+def get_all_exercises():
+    return exercise_service.get_all_exercises()
 
-@router.get("/{id}")
-def get_exercise_by_id(id: int):
-    return str.format("get_id, {}", id)
+@router.put("/{name}")
+def put_exercise(name: str, new_name: str):
+    return exercise_service.update_exercise(name=name, new_name=new_name)
 
-@router.get("/name/{name}")
+@router.get("/{name}")
 def get_exercise_by_name(name: str):
-    return str.format("get_name, {}", name)
+    return exercise_service.get_exercise_by_name(name)
 
-@router.delete("/{id}")
-def delete_exercise(id: int):
-    return str.format("delete, {}", id)
+@router.delete("/{name}")
+def delete_exercise(name: str):
+    return exercise_service.delete_exercise(name)

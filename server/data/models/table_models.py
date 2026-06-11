@@ -20,6 +20,7 @@ class Exercise(SQLModel, table=True):
     __tablename__ = "exercises"
     id: int | None = Field(default=None, primary_key=True)
     name: str = Field(unique=True)
+    active: bool = True
 
 class Routine(SQLModel, table=True):
     __tablename__ = "routines"

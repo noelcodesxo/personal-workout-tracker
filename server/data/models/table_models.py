@@ -1,5 +1,6 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
+from sqlalchemy import Column, DateTime
 from sqlmodel import SQLModel, Field, Relationship
 
 # How to use this? It's not a table
@@ -35,16 +36,28 @@ class Workout(SQLModel, table=True):
     __tablename__ = "workouts"
     id: int | None = Field(default=None, primary_key=True)
     workout_type: WorkoutType
-    workout_start_time: datetime = Field(default_factory=datetime.utcnow)
-    workout_end_time: datetime = None
+    # Start time is owned by the service (set explicitly on create), not the DB.
+    workout_start_time: datetime = Field(
+        sa_column=Column(DateTime(timezone=True), nullable=False),
+    )
+    # End time is stamped by the service on each log update (now, unless the client passes one).
+    workout_end_time: datetime | None = Field(
+        default=None,
+        sa_column=Column(DateTime(timezone=True), nullable=True),
+    )
     user_id: int = Field(foreign_key="users.id")
     routine_id: int | None = Field(default=None, foreign_key="routines.id")
+    active: bool = True
+    exercise_entries: list["ExerciseEntry"] = Relationship(back_populates="workout")
 
 class ExerciseEntry(SQLModel, table=True):
     __tablename__ = "exercise_entries"
     id: int | None = Field(default=None, primary_key=True)
     workout_id: int = Field(foreign_key="workouts.id")
     exercise_id: int = Field(foreign_key="exercises.id")
+    workout: Workout = Relationship(back_populates="exercise_entries")
+    exercise: Exercise = Relationship()
+    completed_sets: list["CompletedSetEntry"] = Relationship(back_populates="exercise_entry")
 
 class CompletedSetEntry(SQLModel, table=True):
     __tablename__ = "completed_set_entries"
@@ -54,6 +67,7 @@ class CompletedSetEntry(SQLModel, table=True):
     duration_in_seconds: int = 0
     exercise_entry_id: int = Field(foreign_key="exercise_entries.id")
     notes: str = ""
+    exercise_entry: ExerciseEntry = Relationship(back_populates="completed_sets")
 
 class RoutineExercise(SQLModel, table=True):
     __tablename__ = "routine_exercises"

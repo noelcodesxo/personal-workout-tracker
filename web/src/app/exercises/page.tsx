@@ -10,12 +10,12 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ListRowSkeleton } from "@/components/ui/LoadingSkeleton";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { Button } from "@/components/ui/Button";
-import { useExercises } from "@/lib/hooks/useExercises";
+import { useGetExercises } from "@/lib/hooks/useExercises";
 
 export default function ExercisesPage() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const { data: exercises, isLoading, isError, refetch } = useExercises();
+  const { data: exercises, isLoading, isError, refetch } = useGetExercises();
 
   const filtered = exercises?.filter((e) =>
     e.name.toLowerCase().includes(search.toLowerCase()),

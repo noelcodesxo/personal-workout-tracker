@@ -10,7 +10,7 @@ import { IconButton } from "@/components/ui/IconButton";
 import { FormField, UnderlineInput } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
-import { useExercise, useRenameExercise, useDeleteExercise } from "@/lib/hooks/useExercises";
+import { useGetExercise, useUpdateExercise, useDeleteExercise } from "@/lib/hooks/useExercises";
 import { NetworkError } from "@/api/types";
 
 const schema = z.object({
@@ -27,8 +27,8 @@ export default function ExerciseDetailPage({ params }: PageProps) {
   const exerciseName = decodeURIComponent(id);
 
   const router = useRouter();
-  const { data: exercise, isLoading, isError } = useExercise(exerciseName);
-  const renameExercise = useRenameExercise();
+  const { data: exercise, isLoading, isError } = useGetExercise(exerciseName);
+  const updateExercise = useUpdateExercise();
   const deleteExercise = useDeleteExercise();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -51,7 +51,7 @@ export default function ExerciseDetailPage({ params }: PageProps) {
   async function onSave(values: FormValues) {
     if (!isDirty) return;
     try {
-      await renameExercise.mutateAsync({ currentName: exerciseName, newName: values.name });
+      await updateExercise.mutateAsync({ currentName: exerciseName, newName: values.name });
       router.push("/exercises");
     } catch {
       setError("name", { message: "Could not save. The name may already be taken." });
@@ -68,7 +68,7 @@ export default function ExerciseDetailPage({ params }: PageProps) {
   }
 
   const isNetworkError =
-    renameExercise.error instanceof NetworkError ||
+    updateExercise.error instanceof NetworkError ||
     deleteExercise.error instanceof NetworkError;
 
   if (isLoading) {

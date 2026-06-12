@@ -12,7 +12,7 @@ export const exercisesApi = {
   create: (name: string) => apiFetch<Exercise | null>("/exercise", { method: "POST", body: { name } }),
 
   // PUT /exercise/{name}?new_name={newName}
-  rename: (currentName: string, newName: string) =>
+  update: (currentName: string, newName: string) =>
     apiFetch<Exercise>(`/exercise/${encodeURIComponent(currentName)}`, {
       method: "PUT",
       params: { new_name: newName },

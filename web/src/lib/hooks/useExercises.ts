@@ -9,14 +9,14 @@ export const exerciseKeys = {
   detail: (name: string) => ["exercises", name] as const,
 };
 
-export function useExercises() {
+export function useGetExercises() {
   return useQuery({
     queryKey: exerciseKeys.all,
     queryFn: () => exercisesApi.list(),
   });
 }
 
-export function useExercise(name: string) {
+export function useGetExercise(name: string) {
   return useQuery({
     queryKey: exerciseKeys.detail(name),
     queryFn: () => exercisesApi.getByName(name),
@@ -38,11 +38,11 @@ export function useCreateExercise() {
   });
 }
 
-export function useRenameExercise() {
+export function useUpdateExercise() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ currentName, newName }: { currentName: string; newName: string }) =>
-      exercisesApi.rename(currentName, newName),
+      exercisesApi.update(currentName, newName),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: exerciseKeys.all });
     },

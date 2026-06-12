@@ -1,2 +1,11 @@
 *.env
 __pycache__
+
+.claude/*
+.vscode/*
+
+# Personal stuff
+api_bodies.json
+logic_thinking.md
+next.md
+routes_thinking.md

@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forma — Workout Tracker Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --black: #0e0e1a;
+      --white: #ffffff;
+      --gray-100: #f4f4f8;
+      --gray-200: #e8e8f0;
+      --gray-400: #aaaabb;
+      --gray-600: #70708a;
+      --gray-800: #2a2a3a;
+      --border: 1px solid #e2e2ec;
+      --border-dark: 1px solid var(--black);
+      --accent: #7C3AFF;
+      --accent-dim: rgba(124, 58, 255, 0.06);
+      --accent-glow: rgba(124, 58, 255, 0.22);
+      --accent-soft: rgba(124, 58, 255, 0.12);
+      --font-display: 'Rajdhani', system-ui, sans-serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --phone-width: 390px;
+      --phone-height: 844px;
+      --radius: 2px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #e8e8f2;
+      background-image:
+        linear-gradient(rgba(124,58,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,255,0.055) 1px, transparent 1px);
+      background-size: 48px 48px;
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px;
+      gap: 80px;
+    }
+
+    /* ── Screen wrapper ── */
+    .screen-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .screen-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    .phone {
+      width: var(--phone-width);
+      height: var(--phone-height);
+      background: var(--white);
+      border: 1px solid rgba(124,58,255,0.15);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow:
+        0 12px 48px rgba(14,14,26,0.12),
+        0 0 0 1px rgba(124,58,255,0.06),
+        0 2px 8px rgba(14,14,26,0.06);
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .status-time {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--black);
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .status-icon {
+      width: 16px;
+      height: 10px;
+      border: 1.5px solid var(--black);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .status-icon::after {
+      content: '';
+      position: absolute;
+      top: 1px; left: 1px; right: 3px; bottom: 1px;
+      background: var(--black);
+    }
+
+    .signal-dots {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+    }
+
+    .signal-dots span {
+      background: var(--black);
+      width: 3px;
+      border-radius: 1px;
+    }
+
+    .signal-dots span:nth-child(1) { height: 4px; }
+    .signal-dots span:nth-child(2) { height: 6px; }
+    .signal-dots span:nth-child(3) { height: 8px; }
+    .signal-dots span:nth-child(4) { height: 10px; }
+
+    /* ── Top Bar ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px 12px;
+      flex-shrink: 0;
+    }
+
+    .top-bar-title {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    /* App name — Rajdhani with tracking */
+    .app-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+
+    .icon-btn svg { display: block; }
+
+    /* ── Scrollable content ── */
+    .screen-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+
+    .screen-content::-webkit-scrollbar { display: none; }
+
+    /* ═══════════════════════════════════
+       SCREEN 1 — HOME
+    ═══════════════════════════════════ */
+    .home-hero {
+      padding: 28px 24px 32px;
+      border-bottom: var(--border);
+      position: relative;
+      background-color: var(--white);
+      background-image:
+        linear-gradient(rgba(124,58,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,255,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* thin left accent bar — "the glow" */
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+
+    /* subtle bottom accent line */
+    .home-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .home-greeting {
+      font-family: var(--font-display);
+      font-size: 54px;
+      font-weight: 600;
+      line-height: 0.97;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .home-date {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin-bottom: 32px;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--accent);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 18px 24px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 28px 24px 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    .section-link {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      opacity: 0.8;
+    }
+
+    .workout-card {
+      padding: 20px 24px;
+      border-bottom: var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    /* subtle left accent on hover state — shown as "last" card for demo */
+    .workout-card:first-of-type {
+      background: var(--accent-dim);
+    }
+
+    .workout-card:first-of-type::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .workout-card-name {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+    }
+
+    .workout-card-date {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-600);
+      letter-spacing: 0.04em;
+    }
+
+    .workout-card-right {
+      text-align: right;
+    }
+
+    .workout-card-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-600);
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 2 — MENU DRAWER
+    ═══════════════════════════════════ */
+    .drawer-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(14,14,26,0.3);
+      z-index: 10;
+    }
+
+    .drawer-panel {
+      position: absolute;
+      top: 0; left: 0;
+      width: 80%;
+      height: 100%;
+      background: var(--white);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(124,58,255,0.15);
+    }
+
+    /* accent edge on right side of drawer */
+    .drawer-panel::after {
+      content: '';
+      position: absolute;
+      top: 0; right: -1px;
+      width: 1px;
+      height: 40%;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+
+    .drawer-top {
+      padding: 52px 28px 28px;
+      border-bottom: var(--border);
+      position: relative;
+      background-image:
+        linear-gradient(rgba(124,58,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,255,0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .drawer-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--gray-600);
+      cursor: pointer;
+      line-height: 1;
+      font-family: var(--font-body);
+    }
+
+    .drawer-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid rgba(124,58,255,0.3);
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 0 16px var(--accent-soft);
+    }
+
+    .drawer-avatar-initials {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .drawer-username {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: 0.04em;
+    }
+
+    .drawer-nav {
+      flex: 1;
+      padding: 12px 0;
+    }
+
+    .drawer-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      border-bottom: var(--border);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .drawer-nav-item:first-child {
+      border-top: var(--border);
+    }
+
+    .drawer-nav-item.active {
+      background: var(--accent-dim);
+      padding-left: 26px;
+      border-left: 2px solid var(--accent);
+    }
+
+    .drawer-nav-label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--black);
+      letter-spacing: 0.02em;
+    }
+
+    .drawer-nav-item.active .drawer-nav-label {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .drawer-nav-arrow {
+      color: var(--gray-400);
+      font-size: 16px;
+      font-family: var(--font-body);
+    }
+
+    .drawer-nav-item.active .drawer-nav-arrow {
+      color: var(--accent);
+    }
+
+    .drawer-footer {
+      padding: 28px 28px 48px;
+      border-top: var(--border);
+    }
+
+    .drawer-signout {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      cursor: pointer;
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 3 — EXERCISES
+    ═══════════════════════════════════ */
+    .search-container {
+      padding: 8px 24px 0;
+      border-bottom: var(--border);
+    }
+
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--black);
+    }
+
+    .search-icon {
+      color: var(--gray-400);
+      flex-shrink: 0;
+    }
+
+    .search-input-mock {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray-400);
+      letter-spacing: 0.02em;
+    }
+
+    .exercise-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: var(--border);
+      cursor: pointer;
+    }
+
+    .exercise-item-name {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 3px;
+      letter-spacing: -0.01em;
+    }
+
+    .exercise-item-muscle {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-600);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .exercise-item-arrow {
+      color: var(--accent);
+      font-size: 14px;
+      opacity: 0.5;
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 4 — EXERCISE DETAIL
+    ═══════════════════════════════════ */
+    .form-section {
+      padding: 32px 24px;
+    }
+
+    .form-field {
+      margin-bottom: 36px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+
+    .form-input-mock {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--black);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--black);
+      letter-spacing: 0.01em;
+    }
+
+    .form-input-mock.placeholder {
+      color: var(--gray-400);
+    }
+
+    .form-actions {
+      padding: 0 24px 32px;
+    }
+
+    .btn-destructive {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--gray-600);
+      padding: 16px;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 5 — ROUTINES
+    ═══════════════════════════════════ */
+    .routine-card {
+      margin: 0 24px 12px;
+      border: var(--border);
+      padding: 20px;
+      cursor: pointer;
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* corner accent mark — angular mecha detail */
+    .routine-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 14px 14px 0;
+      border-color: transparent var(--accent) transparent transparent;
+      opacity: 0.35;
+    }
+
+    .routines-list {
+      padding-top: 20px;
+    }
+
+    .routine-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .routine-card-name {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .routine-card-arrow {
+      color: var(--accent);
+      font-size: 14px;
+      margin-top: 2px;
+      opacity: 0.6;
+    }
+
+    .routine-card-meta {
+      display: flex;
+      gap: 20px;
+    }
+
+    .routine-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .routine-meta-value {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .routine-meta-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 6 — ROUTINE DETAIL
+    ═══════════════════════════════════ */
+    .routine-detail-header {
+      padding: 20px 24px 24px;
+      border-bottom: var(--border);
+      position: relative;
+      background-image:
+        linear-gradient(rgba(124,58,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .routine-detail-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+
+    .routine-detail-name {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.01em;
+      line-height: 1.0;
+      margin-bottom: 8px;
+    }
+
+    .routine-detail-sub {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-600);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .routine-exercise-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: var(--border);
+    }
+
+    .routine-exercise-name {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+
+    .routine-exercise-sub {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--gray-600);
+      letter-spacing: 0.04em;
+    }
+
+    .routine-sets-badge {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .add-exercise-btn {
+      margin: 16px 24px;
+      padding: 16px;
+      border: 1px dashed rgba(124,58,255,0.35);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      background: var(--accent-dim);
+    }
+
+    .add-exercise-btn-text {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .bottom-sticky {
+      padding: 16px 24px 36px;
+      border-top: var(--border);
+      background: var(--white);
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════
+       SCREEN 7 — ACTIVE WORKOUT
+    ═══════════════════════════════════ */
+    .workout-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px 12px;
+      border-bottom: 1px solid rgba(124,58,255,0.2);
+      flex-shrink: 0;
+      background: var(--white);
+      position: relative;
+    }
+
+    /* full-width accent line under timer bar */
+    .workout-top-bar::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+
+    .workout-timer {
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      flex: 1;
+      text-align: center;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .workout-finish-btn {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--accent);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 2px 14px var(--accent-glow);
+    }
+
+    .workout-routine-label {
+      padding: 12px 24px;
+      border-bottom: var(--border);
+      flex-shrink: 0;
+    }
+
+    .workout-routine-name {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    .active-exercise-block {
+      border-bottom: var(--border);
+      padding-bottom: 8px;
+    }
+
+    .active-exercise-name-row {
+      padding: 16px 24px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .active-exercise-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: 0.02em;
+    }
+
+    .set-cols-header {
+      display: grid;
+      grid-template-columns: 40px 1fr 1fr 32px;
+      gap: 8px;
+      padding: 0 24px;
+      margin-bottom: 6px;
+    }
+
+    .set-col-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+    }
+
+    .set-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 1fr 32px;
+      gap: 8px;
+      padding: 8px 24px;
+      align-items: center;
+    }
+
+    .set-row.completed {
+      opacity: 0.38;
+    }
+
+    .set-num {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-600);
+    }
+
+    .set-val {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--black);
+    }
+
+    .set-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--gray-400);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .set-checkbox.checked {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-soft);
+    }
+
+    .set-checkbox.checked::after {
+      content: '';
+      width: 10px;
+      height: 6px;
+      border-left: 1.5px solid var(--white);
+      border-bottom: 1.5px solid var(--white);
+      transform: rotate(-45deg) translateY(-1px);
+    }
+
+    .add-set-row {
+      padding: 10px 24px 12px;
+    }
+
+    .add-set-link {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      opacity: 0.8;
+    }
+
+    /* ── Phone notch — accent color ── */
+    .phone-notch {
+      width: 120px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 0 0 2px 2px;
+      margin: 0 auto;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    /* ── Icons ── */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px 2px;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 1.5px;
+      background: var(--black);
+    }
+
+    .hamburger span:nth-child(1) { width: 20px; }
+    .hamburger span:nth-child(2) { width: 14px; }
+    .hamburger span:nth-child(3) { width: 20px; }
+
+    .back-arrow {
+      font-size: 20px;
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--black);
+    }
+
+    .plus-icon {
+      font-size: 22px;
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .edit-icon {
+      font-size: 14px;
+      color: var(--gray-600);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       SCREEN 1 — HOME
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Home</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <div class="icon-btn">
+          <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+        <span class="app-name">Forma</span>
+        <div class="icon-btn"></div>
+      </div>
+
+      <div class="screen-content">
+        <div class="home-hero">
+          <div class="home-greeting">Good<br>morning,<br>Noel.</div>
+          <div class="home-date" style="margin-top:16px;">Wednesday, Jun 11</div>
+          <div class="btn-primary">Start a Workout</div>
+        </div>
+
+        <div class="section-header">
+          <span class="section-title">Recent Workouts</span>
+          <span class="section-link">View all →</span>
+        </div>
+
+        <div class="workout-card">
+          <div>
+            <div class="workout-card-name">Upper Strength A</div>
+            <div class="workout-card-date">Mon, Jun 9</div>
+          </div>
+          <div class="workout-card-right">
+            <div class="workout-card-meta">18 sets</div>
+            <div class="workout-card-meta">47 min</div>
+          </div>
+        </div>
+
+        <div class="workout-card" style="background:none;">
+          <div>
+            <div class="workout-card-name">Lower Power</div>
+            <div class="workout-card-date">Sat, Jun 7</div>
+          </div>
+          <div class="workout-card-right">
+            <div class="workout-card-meta">14 sets</div>
+            <div class="workout-card-meta">52 min</div>
+          </div>
+        </div>
+
+        <div class="workout-card" style="background:none;">
+          <div>
+            <div class="workout-card-name">Push Day</div>
+            <div class="workout-card-date">Thu, Jun 5</div>
+          </div>
+          <div class="workout-card-right">
+            <div class="workout-card-meta">21 sets</div>
+            <div class="workout-card-meta">61 min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 2 — MENU DRAWER
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Menu Drawer</div>
+    <div class="phone" style="position:relative;">
+      <div class="phone-notch"></div>
+
+      <!-- Background (home, dimmed) -->
+      <div class="status-bar" style="opacity:0.25;"><span class="status-time">9:41</span></div>
+      <div class="top-bar" style="opacity:0.25;">
+        <div class="icon-btn"><div class="hamburger"><span></span><span></span><span></span></div></div>
+        <span class="app-name">Forma</span>
+        <div class="icon-btn"></div>
+      </div>
+      <div style="opacity:0.2; padding: 28px 24px 0 100px;">
+        <div style="font-family:var(--font-display); font-size:44px; font-weight:600; color:var(--black); line-height:1.0;">Good<br>morning,<br>Noel.</div>
+      </div>
+
+      <div class="drawer-overlay"></div>
+
+      <div class="drawer-panel">
+        <div class="drawer-close">×</div>
+
+        <div class="drawer-top">
+          <div class="drawer-avatar">
+            <span class="drawer-avatar-initials">N</span>
+          </div>
+          <div class="drawer-username">Noel</div>
+        </div>
+
+        <div class="drawer-nav">
+          <div class="drawer-nav-item active">
+            <span class="drawer-nav-label">Home</span>
+            <span class="drawer-nav-arrow">→</span>
+          </div>
+          <div class="drawer-nav-item">
+            <span class="drawer-nav-label">Exercises</span>
+            <span class="drawer-nav-arrow">→</span>
+          </div>
+          <div class="drawer-nav-item">
+            <span class="drawer-nav-label">Workouts</span>
+            <span class="drawer-nav-arrow">→</span>
+          </div>
+          <div class="drawer-nav-item">
+            <span class="drawer-nav-label">Routines</span>
+            <span class="drawer-nav-arrow">→</span>
+          </div>
+        </div>
+
+        <div class="drawer-footer">
+          <span class="drawer-signout">Sign Out</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 3 — EXERCISES
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Exercises</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+      <div class="top-bar">
+        <div class="icon-btn"><span class="back-arrow">←</span></div>
+        <span class="top-bar-title">Exercises</span>
+        <div class="icon-btn"><span class="plus-icon">+</span></div>
+      </div>
+
+      <div class="search-container">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/>
+          </svg>
+          <span class="search-input-mock">Search exercises…</span>
+        </div>
+      </div>
+
+      <div class="screen-content">
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Bench Press</div>
+            <div class="exercise-item-muscle">Chest · Triceps</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Squat</div>
+            <div class="exercise-item-muscle">Quads · Glutes</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Deadlift</div>
+            <div class="exercise-item-muscle">Hamstrings · Back</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Pull-Up</div>
+            <div class="exercise-item-muscle">Lats · Biceps</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Overhead Press</div>
+            <div class="exercise-item-muscle">Shoulders · Triceps</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+        <div class="exercise-list-item">
+          <div>
+            <div class="exercise-item-name">Barbell Row</div>
+            <div class="exercise-item-muscle">Back · Biceps</div>
+          </div>
+          <span class="exercise-item-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 4 — EXERCISE DETAIL
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Exercise Detail</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+      <div class="top-bar">
+        <div class="icon-btn"><span class="back-arrow">←</span></div>
+        <span class="top-bar-title">Bench Press</span>
+        <div class="icon-btn"></div>
+      </div>
+
+      <div class="screen-content">
+        <div class="form-section">
+          <div class="form-field">
+            <label class="form-label">Exercise Name</label>
+            <div class="form-input-mock">Bench Press</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Muscle Group</label>
+            <div class="form-input-mock">Chest</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Secondary Muscles</label>
+            <div class="form-input-mock">Triceps, Front Deltoids</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Equipment</label>
+            <div class="form-input-mock">Barbell</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Notes</label>
+            <div class="form-input-mock placeholder">Add any notes…</div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="btn-primary">Save Changes</div>
+          <div class="btn-destructive">Delete Exercise</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 5 — ROUTINES
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Routines</div>
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+      <div class="top-bar">
+        <div class="icon-btn"><span class="back-arrow">←</span></div>
+        <span class="top-bar-title">Routines</span>
+        <div class="icon-btn"><span class="plus-icon">+</span></div>
+      </div>
+
+      <div class="screen-content">
+        <div class="routines-list">
+          <div class="routine-card">
+            <div class="routine-card-header">
+              <span class="routine-card-name">Upper Strength A</span>
+              <span class="routine-card-arrow">→</span>
+            </div>
+            <div class="routine-card-meta">
+              <div class="routine-meta-item">
+                <span class="routine-meta-value">6</span>
+                <span class="routine-meta-label">Exercises</span>
+              </div>
+              <div class="routine-meta-item">
+                <span class="routine-meta-value" style="font-size:15px; padding-top:5px; font-family:var(--font-body); font-weight:400;">Jun 9</span>
+                <span class="routine-meta-label">Last Used</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="routine-card">
+            <div class="routine-card-header">
+              <span class="routine-card-name">Lower Power</span>
+              <span class="routine-card-arrow">→</span>
+            </div>
+            <div class="routine-card-meta">
+              <div class="routine-meta-item">
+                <span class="routine-meta-value">5</span>
+                <span class="routine-meta-label">Exercises</span>
+              </div>
+              <div class="routine-meta-item">
+                <span class="routine-meta-value" style="font-size:15px; padding-top:5px; font-family:var(--font-body); font-weight:400;">Jun 7</span>
+                <span class="routine-meta-label">Last Used</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="routine-card">
+            <div class="routine-card-header">
+              <span class="routine-card-name">Push Day</span>
+              <span class="routine-card-arrow">→</span>
+            </div>
+            <div class="routine-card-meta">
+              <div class="routine-meta-item">
+                <span class="routine-meta-value">7</span>
+                <span class="routine-meta-label">Exercises</span>
+              </div>
+              <div class="routine-meta-item">
+                <span class="routine-meta-value" style="font-size:15px; padding-top:5px; font-family:var(--font-body); font-weight:400;">Jun 5</span>
+                <span class="routine-meta-label">Last Used</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="routine-card">
+            <div class="routine-card-header">
+              <span class="routine-card-name">Pull Day</span>
+              <span class="routine-card-arrow">→</span>
+            </div>
+            <div class="routine-card-meta">
+              <div class="routine-meta-item">
+                <span class="routine-meta-value">5</span>
+                <span class="routine-meta-label">Exercises</span>
+              </div>
+              <div class="routine-meta-item">
+                <span class="routine-meta-value" style="font-size:15px; padding-top:5px; font-family:var(--font-body); font-weight:400;">Jun 3</span>
+                <span class="routine-meta-label">Last Used</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 6 — ROUTINE DETAIL
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Routine Detail</div>
+    <div class="phone" style="display:flex; flex-direction:column;">
+      <div class="phone-notch"></div>
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+      <div class="top-bar">
+        <div class="icon-btn"><span class="back-arrow">←</span></div>
+        <span class="top-bar-title">Routine</span>
+        <div class="icon-btn"><span class="edit-icon">✎</span></div>
+      </div>
+
+      <div class="routine-detail-header">
+        <div class="routine-detail-name">Upper<br>Strength A</div>
+        <div class="routine-detail-sub">6 exercises · Last used Jun 9</div>
+      </div>
+
+      <div class="screen-content">
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Bench Press</div>
+            <div class="routine-exercise-sub">Chest · Barbell</div>
+          </div>
+          <span class="routine-sets-badge">4 × 8</span>
+        </div>
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Incline DB Press</div>
+            <div class="routine-exercise-sub">Chest · Dumbbell</div>
+          </div>
+          <span class="routine-sets-badge">3 × 10</span>
+        </div>
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Overhead Press</div>
+            <div class="routine-exercise-sub">Shoulders · Barbell</div>
+          </div>
+          <span class="routine-sets-badge">3 × 8</span>
+        </div>
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Barbell Row</div>
+            <div class="routine-exercise-sub">Back · Barbell</div>
+          </div>
+          <span class="routine-sets-badge">4 × 6</span>
+        </div>
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Pull-Up</div>
+            <div class="routine-exercise-sub">Back · Bodyweight</div>
+          </div>
+          <span class="routine-sets-badge">3 × 8</span>
+        </div>
+        <div class="routine-exercise-item">
+          <div>
+            <div class="routine-exercise-name">Tricep Pushdown</div>
+            <div class="routine-exercise-sub">Triceps · Cable</div>
+          </div>
+          <span class="routine-sets-badge">3 × 12</span>
+        </div>
+
+        <div class="add-exercise-btn">
+          <span style="color:var(--accent); font-size:18px; font-weight:300; opacity:0.7;">+</span>
+          <span class="add-exercise-btn-text">Add Exercise</span>
+        </div>
+      </div>
+
+      <div class="bottom-sticky">
+        <div class="btn-primary">Start Workout</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SCREEN 7 — ACTIVE WORKOUT
+  ══════════════════════════════════ -->
+  <div class="screen-group">
+    <div class="screen-label">Active Workout</div>
+    <div class="phone" style="display:flex; flex-direction:column;">
+      <div class="phone-notch"></div>
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <div class="signal-dots"><span></span><span></span><span></span><span></span></div>
+          <div class="status-icon"></div>
+        </div>
+      </div>
+
+      <div class="workout-top-bar">
+        <div style="width:72px;"></div>
+        <div class="workout-timer">00:04:32</div>
+        <div class="workout-finish-btn">Finish</div>
+      </div>
+
+      <div class="workout-routine-label">
+        <span class="workout-routine-name">Upper Strength A</span>
+      </div>
+
+      <div class="screen-content">
+
+        <div class="active-exercise-block">
+          <div class="active-exercise-name-row">
+            <span class="active-exercise-name">Bench Press</span>
+          </div>
+          <div class="set-cols-header">
+            <span class="set-col-label">Set</span>
+            <span class="set-col-label">Weight</span>
+            <span class="set-col-label">Reps</span>
+            <span class="set-col-label"></span>
+          </div>
+          <div class="set-row completed">
+            <span class="set-num">1</span>
+            <span class="set-val">185 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox checked"></div>
+          </div>
+          <div class="set-row completed">
+            <span class="set-num">2</span>
+            <span class="set-val">185 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox checked"></div>
+          </div>
+          <div class="set-row">
+            <span class="set-num">3</span>
+            <span class="set-val">185 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox"></div>
+          </div>
+          <div class="set-row">
+            <span class="set-num">4</span>
+            <span class="set-val">185 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox"></div>
+          </div>
+          <div class="add-set-row">
+            <span class="add-set-link">+ Add Set</span>
+          </div>
+        </div>
+
+        <div class="active-exercise-block">
+          <div class="active-exercise-name-row">
+            <span class="active-exercise-name">Overhead Press</span>
+          </div>
+          <div class="set-cols-header">
+            <span class="set-col-label">Set</span>
+            <span class="set-col-label">Weight</span>
+            <span class="set-col-label">Reps</span>
+            <span class="set-col-label"></span>
+          </div>
+          <div class="set-row">
+            <span class="set-num">1</span>
+            <span class="set-val">115 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox"></div>
+          </div>
+          <div class="set-row">
+            <span class="set-num">2</span>
+            <span class="set-val">115 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox"></div>
+          </div>
+          <div class="set-row">
+            <span class="set-num">3</span>
+            <span class="set-val">115 lb</span>
+            <span class="set-val">8</span>
+            <div class="set-checkbox"></div>
+          </div>
+          <div class="add-set-row">
+            <span class="add-set-link">+ Add Set</span>
+          </div>
+        </div>
+
+        <div class="add-exercise-btn" style="margin:16px 24px 32px;">
+          <span style="color:var(--accent); font-size:18px; font-weight:300; opacity:0.7;">+</span>
+          <span class="add-exercise-btn-text">Add Exercise</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

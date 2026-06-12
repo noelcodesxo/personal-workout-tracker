@@ -10,50 +10,31 @@ export interface Exercise {
 }
 
 // Routine
+// Note: field name is plural "durations" — matches the server model exactly.
 export interface PlannedSet {
-  id: number;
-  routine_exercise_id: number;
   planned_weight?: number | null;
   planned_reps?: number | null;
-  planned_duration_in_seconds?: number | null;
-}
-
-export interface CreatePlannedSetRequest {
-  planned_weight?: number | null;
-  planned_reps?: number | null;
-  planned_duration_in_seconds?: number | null;
+  planned_durations_in_seconds?: number | null;
 }
 
 export interface RoutineExercise {
-  id: number;
-  routine_id: number;
-  exercise_id: number;
-  exercise?: Exercise;
+  name: string;
   planned_sets: PlannedSet[];
 }
 
 export interface Routine {
-  id: number;
   name: string;
+  notes: string;
   workout_type: WorkoutType;
-  notes?: string | null;
-  active: boolean;
   routine_exercises: RoutineExercise[];
 }
 
-export interface CreateRoutineRequest {
+// Same shape for create and update (PUT matches by name, name cannot be changed via PUT).
+export interface RoutinePayload {
   name: string;
-  workout_type: WorkoutType;
   notes?: string;
-  exercise_ids?: number[];
-  planned_sets?: CreatePlannedSetRequest[][];
-}
-
-export interface UpdateRoutineRequest {
-  name?: string;
-  workout_type?: WorkoutType;
-  notes?: string | null;
-  active?: boolean;
+  workout_type: WorkoutType;
+  routine_exercises: RoutineExercise[];
 }
 
 // Workout

@@ -72,20 +72,21 @@ Implement the **Astron** identity (PRD §8) so every later screen composes from 
 
 Catalog management. Simplest domain object (`Exercise`: `name` unique, `active`) — good first vertical slice (PRD §5 Exercises).
 
-- [ ] **Exercises API layer** (`api/exercises.ts`, `api/types.ts`)
-  - [ ] Typed list / get / create / update / soft-delete endpoints
-  - [ ] `useExercises` hooks in `lib/hooks/` (TanStack Query: cache + invalidation)
-- [ ] **As an athlete, I can view my full exercise catalog and search/filter it** (`/exercises`)
-  - [ ] List screen with search input (client-side filter to start)
-  - [ ] Inactive exercises rendered struck-through + "Inactive"
-  - [ ] Empty / loading / error states wired
-- [ ] **As an athlete, I can create a new exercise with a name** (`/exercises/new`)
-  - [ ] Form (RHF + Zod): name required, unique-violation surfaced inline from API
-  - [ ] Optimistic add or invalidate-on-success
-- [ ] **As an athlete, I can edit an exercise** (`/exercises/[id]`)
-  - [ ] Name field + Active toggle, Save Changes
-- [ ] **As an athlete, I can delete an exercise I no longer use**
-  - [ ] Soft delete (sets `active=false`); confirm action; history preserved
+- [x] **Exercises API layer** (`api/exercises.ts`, `api/types.ts`)
+  - [x] Typed list / get / create / rename / soft-delete endpoints (aligned to real API: `/exercise`, name-keyed)
+  - [x] `useExercises` hooks in `lib/hooks/` (TanStack Query: cache + optimistic updates)
+- [x] **As an athlete, I can view my full exercise catalog and search/filter it** (`/exercises`)
+  - [x] List screen with search input (client-side filter)
+  - [x] Note: inactive exercises not shown — API only returns active (GET /exercise/ filters server-side)
+  - [x] Empty / loading / error states wired
+- [x] **As an athlete, I can create a new exercise with a name** (`/exercises/new`)
+  - [x] Form (RHF + Zod): name required, duplicate name surfaced inline
+  - [x] Optimistic cache update on success
+- [x] **As an athlete, I can edit an exercise** (`/exercises/[id]`)
+  - [x] Name field + Save Changes (rename via PUT)
+  - [x] Note: active toggle omitted — API does not return `active` in ExerciseRead
+- [x] **As an athlete, I can delete an exercise I no longer use**
+  - [x] Soft delete via DELETE /exercise/{name}; confirm step; optimistic cache removal
 
 ---
 

@@ -11,3 +11,4 @@ export { EmptyState } from "./EmptyState";
 export { ListRowSkeleton, CardSkeleton } from "./LoadingSkeleton";
 export { ErrorBanner } from "./ErrorBanner";
 export { Sheet } from "./Sheet";
+export { WorkoutTypeSelect } from "./WorkoutTypeSelect";

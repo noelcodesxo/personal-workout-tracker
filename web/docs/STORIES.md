@@ -94,24 +94,25 @@ Catalog management. Simplest domain object (`Exercise`: `name` unique, `active`)
 
 Reusable plans (`Routine` + `RoutineExercise` + `PlannedSet`). Depends on Exercises (Epic 2) for the picker (PRD §5 Routines).
 
-- [ ] **Routines API layer** (`api/routines.ts`, types for `Routine`/`RoutineExercise`/`PlannedSet`)
-  - [ ] Typed CRUD incl. nested routine-exercises and planned sets
-  - [ ] `useRoutines` hooks
-- [ ] **As an athlete, I can view all my routines** (`/routines`)
-  - [ ] Cards: name, `workout_type` badge, exercise count, last-used
-  - [ ] Empty / loading / error states
-- [ ] **As an athlete, I can create a routine** (`/routines/new`)
-  - [ ] Name (required, unique), **`workout_type` required** (enum select), optional notes
-  - [ ] Add exercises via add-exercise picker sheet
-  - [ ] Define planned sets per exercise (planned weight / reps / duration, all optional)
-- [ ] **As an athlete, I can open a routine to see its exercises** (`/routines/[id]`)
-  - [ ] Planned exercises list with planned-set summary (e.g. "135 lb · 4×8")
-  - [ ] Sticky "Start Workout" CTA (hands off to Epic 4)
-- [ ] **As an athlete, I can edit a routine** (`/routines/[id]` edit mode, `✎`)
-  - [ ] Rename, change type/notes, add/remove exercises, edit planned sets
-  - [ ] Reordering is **display-only for v1** — persistence blocked on API ordering field (PRD §13)
-- [ ] **As an athlete, I can delete a routine**
-  - [ ] Soft delete; confirm action
+- [x] **Routines API layer** (`api/routines.ts`, types for `Routine`/`RoutineExercise`/`PlannedSet`)
+  - [x] Typed CRUD incl. nested routine-exercises and planned sets
+  - [x] `useRoutines` hooks
+- [x] **As an athlete, I can view all my routines** (`/routines`)
+  - [x] Cards: name, `workout_type` badge, exercise count, last-used
+  - [x] Empty / loading / error states
+- [x] **As an athlete, I can create a routine** (`/routines/new`)
+  - [x] Name (required, unique), **`workout_type` required** (enum select), optional notes
+  - [x] Add exercises via add-exercise picker sheet
+  - [x] Define planned sets per exercise (planned weight / reps / duration, all optional)
+- [x] **As an athlete, I can open a routine to see its exercises** (`/routines/[id]`)
+  - [x] Planned exercises list with planned-set summary (e.g. "135 lb · 4×8")
+  - [x] Sticky "Start Workout" CTA (hands off to Epic 4)
+- [x] **As an athlete, I can edit a routine** (`/routines/[id]` edit mode, `✎`)
+  - [x] Rename omitted — PUT /routine/ matches by name, name is immutable via API
+  - [x] Change type/notes, add/remove exercises, edit planned sets
+  - [x] Reordering is **display-only for v1** — persistence blocked on API ordering field (PRD §13)
+- [x] **As an athlete, I can delete a routine**
+  - [x] Soft delete; confirm action
 
 ---
 

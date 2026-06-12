@@ -1,26 +1,105 @@
 @import "tailwindcss";
 
+/* ── Raw CSS vars (rgba values Tailwind can't express as theme tokens) ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --accent-dim: rgba(13, 27, 42, 0.05);
+  --accent-soft: rgba(13, 27, 42, 0.1);
+  --accent-glow: rgba(0, 50, 140, 0.22);
+  --grid-line: rgba(13, 27, 42, 0.055);
 }
 
+/* ── Design tokens → Tailwind utilities ── */
+@theme {
+  --color-ink: #111111;
+  --color-surface: #ffffff;
+  --color-accent: #0d1b2a;
+  --color-gray-100: #f4f4f4;
+  --color-gray-200: #e8e8e8;
+  --color-gray-400: #aaaaaa;
+  --color-gray-600: #666666;
+  --color-gray-800: #2a2a2a;
+  --color-border: #e0e0e0;
+  --color-border-dark: #111111;
+  --color-danger: #c0392b;
+
+  /* 2px everywhere — the Astron sharp/technical feel */
+  --radius: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+}
+
+/* Fonts reference next/font CSS vars, so inline */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-rajdhani), system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ── Base ── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  font-family: var(--font-body);
+}
+
+/* ── Utility: hide scrollbar ── */
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Grid-paper hero/header texture */
+  .bg-grid {
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Accent glow shadow (primary buttons, timer) */
+  .shadow-glow {
+    box-shadow: 0 4px 24px var(--accent-glow);
+  }
+
+  /* Accent glow — compact (workout finish btn) */
+  .shadow-glow-sm {
+    box-shadow: 0 2px 14px var(--accent-glow);
+  }
+
+  /* Left accent gradient bar — add `relative overflow-hidden` to parent */
+  .accent-bar-left {
+    position: relative;
+  }
+  .accent-bar-left::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, #0d1b2a, transparent);
+    pointer-events: none;
+  }
+
+  /* Corner triangle notch — add `relative overflow-hidden` to parent */
+  .corner-notch {
+    position: relative;
+    overflow: hidden;
+  }
+  .corner-notch::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 14px 14px 0;
+    border-color: transparent #0d1b2a transparent transparent;
+    opacity: 0.35;
+    pointer-events: none;
+  }
 }

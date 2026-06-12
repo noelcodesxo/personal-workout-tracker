@@ -18,24 +18,24 @@ Epics and stories derived from [`PRD.md`](./PRD.md). Built **sequentially, top t
 
 Stand up the app skeleton and the rules that keep it clean (PRD §9). Nothing user-facing ships here, but everything below depends on it.
 
-- [ ] **Scaffold the Next.js App Router + TypeScript project** under `web/`
-  - [ ] `create-next-app` (App Router, TS, ESLint), strict mode on
-  - [ ] Establish the §9.2 folder structure (`app/`, `api/`, `components/`, `design/`, `security/`, `lib/`, `config/`) with placeholder index files
-- [ ] **Install and wire the core libraries** (PRD §9.1)
-  - [ ] Tailwind CSS + PostCSS
-  - [ ] TanStack Query — root `QueryClientProvider` in `app/layout.tsx`
-  - [ ] React Hook Form + Zod
-- [ ] **Typed, validated environment config** (`config/env.ts`, PRD §9.4)
-  - [ ] Zod-validate `NEXT_PUBLIC_API_BASE_URL` and `NEXT_PUBLIC_USER_ID` at startup; fail loudly if missing/invalid
-  - [ ] Export a typed `env` object; no scattered `process.env` reads elsewhere
-  - [ ] Commit `.env.example`; create local `.env.local` (`http://localhost:8000`)
-- [ ] **Base API client** (`api/client.ts`, PRD §9.2 — the only place that talks HTTP)
-  - [ ] Fetch wrapper applying base URL + JSON headers + injected `user_id`
-  - [ ] Normalize API errors into a typed error shape (status, message, field errors)
-  - [ ] Surface network failure as a distinct, retryable error (feeds §7.4)
-- [ ] **Repo hygiene**
-  - [ ] ESLint + Prettier config, `npm run lint`/`format`
-  - [ ] README: run order (start API container → `npm run dev`) and env setup (PRD §9.5)
+- [x] **Scaffold the Next.js App Router + TypeScript project** under `web/`
+  - [x] `create-next-app` (App Router, TS, ESLint), strict mode on
+  - [x] Establish the §9.2 folder structure (`app/`, `api/`, `components/`, `design/`, `security/`, `lib/`, `config/`) with placeholder index files
+- [x] **Install and wire the core libraries** (PRD §9.1)
+  - [x] Tailwind CSS + PostCSS
+  - [x] TanStack Query — root `QueryClientProvider` in `app/layout.tsx`
+  - [x] React Hook Form + Zod
+- [x] **Typed, validated environment config** (`config/env.ts`, PRD §9.4)
+  - [x] Zod-validate `NEXT_PUBLIC_API_BASE_URL` and `NEXT_PUBLIC_USER_ID` at startup; fail loudly if missing/invalid
+  - [x] Export a typed `env` object; no scattered `process.env` reads elsewhere
+  - [x] Commit `.env.example`; create local `.env.local` (`http://localhost:8000`)
+- [x] **Base API client** (`api/client.ts`, PRD §9.2 — the only place that talks HTTP)
+  - [x] Fetch wrapper applying base URL + JSON headers + injected `user_id`
+  - [x] Normalize API errors into a typed error shape (status, message, field errors)
+  - [x] Surface network failure as a distinct, retryable error (feeds §7.4)
+- [x] **Repo hygiene**
+  - [x] ESLint + Prettier config, `npm run lint`/`format`
+  - [x] README: run order (start API container → `npm run dev`) and env setup (PRD §9.5)
 
 ---
 
@@ -43,28 +43,28 @@ Stand up the app skeleton and the rules that keep it clean (PRD §9). Nothing us
 
 Implement the **Astron** identity (PRD §8) so every later screen composes from the same primitives.
 
-- [ ] **Design tokens** (`design/tokens.ts` + Tailwind theme extension, PRD §8.1)
-  - [ ] Color tokens: `ink`, `surface`, `accent` (+ `accent-dim/soft/glow`), gray ramp, `border`/`border-dark`
-  - [ ] Type scale + the two fonts (Rajdhani display, DM Sans body) loaded via `next/font`
-  - [ ] Spacing/radius (2px), hairline borders, underline-input styling in `design/globals.css`
-- [ ] **Resolve the semantic-color gap** (PRD §8.1 flag)
-  - [ ] Add `danger` (desaturated red) for validation/destructive; optional `success`/`warning`
-- [ ] **Core UI primitives** (`components/ui/`, PRD §8.4)
-  - [ ] `Button` (primary / destructive-ghost), `IconButton`
-  - [ ] `Card` (optional corner-accent), `ListRow`, `SectionHeader`, `Badge` (workout type)
-  - [ ] `FormField` (accent label + underline input), `SearchInput`, `Toggle`
-  - [ ] `Drawer`, `Sheet`, `EmptyState`
-  - [ ] Signature motifs reusable: left accent bar, corner triangle, glow shadow, grid-paper surface
-- [ ] **App shell & navigation** (PRD §8.2)
-  - [ ] Top bar (hamburger · centered title/app-name · contextual right slot)
-  - [ ] Left slide-in drawer: avatar + username, nav (Home/Exercises/Workouts/Routines), Sign Out; active item styling
-  - [ ] Per-screen bottom-sticky primary action pattern
-- [ ] **Shared states** (PRD §8.5)
-  - [ ] `EmptyState`, loading skeletons (list/card), error/offline retry banner
-  - [ ] Inactive (soft-deleted) row treatment: struck-through + "Inactive"
-- [ ] **Responsive & touch baseline** (PRD §7.1)
-  - [ ] Verify primary breakpoints (360–430 primary, up through ≥1024)
-  - [ ] Bump touch targets to ≥44px (mock uses 36px)
+- [x] **Design tokens** (`design/tokens.ts` + Tailwind theme extension, PRD §8.1)
+  - [x] Color tokens: `ink`, `surface`, `accent` (+ `accent-dim/soft/glow`), gray ramp, `border`/`border-dark`
+  - [x] Type scale + the two fonts (Rajdhani display, DM Sans body) loaded via `next/font`
+  - [x] Spacing/radius (2px), hairline borders, underline-input styling in `globals.css`
+- [x] **Resolve the semantic-color gap** (PRD §8.1 flag)
+  - [x] Add `danger` (desaturated red) for validation/destructive; optional `success`/`warning`
+- [x] **Core UI primitives** (`components/ui/`, PRD §8.4)
+  - [x] `Button` (primary / destructive-ghost), `IconButton`
+  - [x] `Card` (optional corner-accent), `ListRow`, `SectionHeader`, `Badge` (workout type)
+  - [x] `FormField` (accent label + underline input), `SearchInput`, `Toggle`
+  - [x] `Sheet`, `EmptyState`
+  - [x] Signature motifs reusable: left accent bar, corner triangle, glow shadow, grid-paper surface
+- [x] **App shell & navigation** (PRD §8.2)
+  - [x] Top bar (hamburger · centered title/app-name · contextual right slot)
+  - [x] Left slide-in drawer: avatar + username, nav (Home/Exercises/Workouts/Routines), Sign Out; active item styling
+  - [x] Per-screen bottom-sticky primary action pattern
+- [x] **Shared states** (PRD §8.5)
+  - [x] `EmptyState`, loading skeletons (list/card), error/offline retry banner
+  - [x] Inactive (soft-deleted) row treatment: struck-through + "Inactive" via `ListRow`
+- [x] **Responsive & touch baseline** (PRD §7.1)
+  - [x] Verify primary breakpoints (360–430 primary, up through ≥1024)
+  - [x] Bump touch targets to ≥44px — `IconButton` is 44×44px
 
 ---
 

@@ -3,19 +3,10 @@
 export type WorkoutType = "pull" | "push" | "legs" | "cardio" | "core";
 
 // Exercise
+// Note: the API intentionally does not expose id or active — name is the identifier.
+// GET /exercise/ returns active exercises only.
 export interface Exercise {
-  id: number;
   name: string;
-  active: boolean;
-}
-
-export interface CreateExerciseRequest {
-  name: string;
-}
-
-export interface UpdateExerciseRequest {
-  name?: string;
-  active?: boolean;
 }
 
 // Routine

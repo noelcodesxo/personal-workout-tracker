@@ -1,10 +1,23 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from "./client";
-import type { CreateExerciseRequest, Exercise, UpdateExerciseRequest } from "./types";
+import { apiFetch, apiGet, apiDelete } from "./client";
+import type { Exercise } from "./types";
 
 export const exercisesApi = {
-  list: () => apiGet<Exercise[]>("/exercises"),
-  get: (id: number) => apiGet<Exercise>(`/exercises/${id}`),
-  create: (data: CreateExerciseRequest) => apiPost<Exercise>("/exercises", data),
-  update: (id: number, data: UpdateExerciseRequest) => apiPatch<Exercise>(`/exercises/${id}`, data),
-  delete: (id: number) => apiDelete(`/exercises/${id}`),
+  // GET /exercise/ — returns active exercises only
+  list: () => apiGet<Exercise[]>("/exercise"),
+
+  // GET /exercise/{name}
+  getByName: (name: string) => apiGet<Exercise>(`/exercise/${encodeURIComponent(name)}`),
+
+  // POST /exercise/ — body: { name }
+  create: (name: string) => apiFetch<Exercise | null>("/exercise", { method: "POST", body: { name } }),
+
+  // PUT /exercise/{name}?new_name={newName}
+  update: (currentName: string, newName: string) =>
+    apiFetch<Exercise>(`/exercise/${encodeURIComponent(currentName)}`, {
+      method: "PUT",
+      params: { new_name: newName },
+    }),
+
+  // DELETE /exercise/{name} — soft delete (sets active=false)
+  delete: (name: string) => apiDelete(`/exercise/${encodeURIComponent(name)}`),
 };

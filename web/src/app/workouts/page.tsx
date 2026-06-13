@@ -64,12 +64,13 @@ export default function WorkoutsPage() {
 function WorkoutRow({ workout }: { workout: Workout }) {
   const isActive = workout.workout_end_time === null;
   const date = new Date(workout.workout_start_time);
-  const durationSec =
-    workout.workout_end_time
-      ? Math.floor(
-          (new Date(workout.workout_end_time).getTime() - date.getTime()) / 1000,
-        )
-      : null;
+  const durationSec = workout.workout_end_time
+    ? Math.floor((new Date(workout.workout_end_time).getTime() - date.getTime()) / 1000)
+    : null;
+  const setCount = workout.exercise_entries.reduce(
+    (sum, e) => sum + e.completed_sets.length,
+    0,
+  );
 
   return (
     <Link href={`/workouts/${workout.id}`} className="block">
@@ -84,14 +85,9 @@ function WorkoutRow({ workout }: { workout: Workout }) {
             )}
           </div>
           <p className="font-body text-[12px] text-gray-400">
-            {date.toLocaleDateString(undefined, {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
-            })}
+            {date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}
             {durationSec !== null && ` · ${formatDuration(durationSec)}`}
-            {workout.exercise_entries.length > 0 &&
-              ` · ${workout.exercise_entries.length} ${workout.exercise_entries.length === 1 ? "exercise" : "exercises"}`}
+            {setCount > 0 && ` · ${setCount} set${setCount === 1 ? "" : "s"}`}
           </p>
         </div>
         <span className="text-gray-400 font-body text-[18px]">›</span>

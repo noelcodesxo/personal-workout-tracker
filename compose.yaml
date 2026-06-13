@@ -12,3 +12,9 @@ services:
     env_file: .local.env
     ports:
       - 8000:8000
+  frontend:
+    image: web
+    build: ./web
+    env_file: ./web/.env.local
+    ports:
+      - 3000:3000

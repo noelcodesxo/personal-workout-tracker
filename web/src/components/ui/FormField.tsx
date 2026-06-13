@@ -9,15 +9,17 @@ interface FormFieldProps {
 
 export function FormField({ label, error, className, children }: FormFieldProps) {
   return (
-    <div className={cn("mb-9", className)}>
-      <label className="mb-[10px] block font-body text-[10px] font-medium tracking-[0.2em] uppercase text-accent opacity-70">
+    <label className={cn("mb-9 block", className)}>
+      <span className="mb-[10px] block font-body text-[10px] font-medium tracking-[0.2em] uppercase text-accent opacity-70">
         {label}
-      </label>
+      </span>
       {children}
       {error && (
-        <p className="mt-2 font-body text-[11px] text-danger">{error}</p>
+        <span className="mt-2 block font-body text-[11px] text-danger" role="alert">
+          {error}
+        </span>
       )}
-    </div>
+    </label>
   );
 }
 

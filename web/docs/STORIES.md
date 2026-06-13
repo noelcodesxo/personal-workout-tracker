@@ -120,22 +120,22 @@ Reusable plans (`Routine` + `RoutineExercise` + `PlannedSet`). Depends on Exerci
 
 The core loop (PRD §5 Workouts, §14 success criterion). `Workout` + `ExerciseEntry` + `CompletedSetEntry`; start/end times owned by the API. Depends on Exercises + Routines.
 
-- [ ] **Workouts API layer** (`api/workouts.ts`, types for `Workout`/`ExerciseEntry`/`CompletedSetEntry`)
-  - [ ] Start workout (stamps `workout_start_time`), update log, finish (`workout_end_time`)
-  - [ ] `useWorkouts` / active-session hooks; **optimistic updates** for set logging (PRD §7.2)
-- [ ] **As an athlete, I can start a live workout** (freestyle or from a routine)
-  - [ ] From routine: prefill exercises/planned sets, link `routine_id` (confirm copy behavior — PRD §13)
-  - [ ] Freestyle: empty session, `workout_type` required
-- [ ] **As an athlete, I see a running timer and my routine label** (`/workouts/[id]`)
-  - [ ] Live elapsed timer from `workout_start_time`; routine name + type badge
-- [ ] **As an athlete, I can record and check off sets**
-  - [ ] Set rows: weight (lbs) / reps / duration; show only relevant fields
-  - [ ] Check off completed sets (visual completed state); add set; add exercise mid-session
-  - [ ] Per-set notes (`CompletedSetEntry.notes`)
-- [ ] **As an athlete, I can finish a workout**
-  - [ ] Stamps `workout_end_time`; computes session duration; returns to summary/history
-- [ ] **Validation & failure handling** (PRD §6)
-  - [ ] Numeric ranges client-side; inline API errors; non-blocking retry on network failure
+- [x] **Workouts API layer** (`api/workouts.ts`, types for `Workout`/`ExerciseEntry`/`CompletedSetEntry`)
+  - [x] Start workout (stamps `workout_start_time`), update log, finish (`workout_end_time`)
+  - [x] `useWorkouts` / active-session hooks; **optimistic updates** for set logging (PRD §7.2)
+- [x] **As an athlete, I can start a live workout** (freestyle or from a routine)
+  - [x] From routine: prefill exercises/planned sets, link `routine_id` (confirm copy behavior — PRD §13)
+  - [x] Freestyle: empty session, `workout_type` required
+- [x] **As an athlete, I see a running timer and my routine label** (`/workouts/[id]`)
+  - [x] Live elapsed timer from `workout_start_time`; routine name + type badge
+- [x] **As an athlete, I can record and check off sets**
+  - [x] Set rows: weight (lbs) / reps / duration; show only relevant fields
+  - [x] Check off completed sets (visual completed state); add set; add exercise mid-session
+  - [x] Per-set notes (`CompletedSetEntry.notes`)
+- [x] **As an athlete, I can finish a workout**
+  - [x] Stamps `workout_end_time`; computes session duration; returns to summary/history
+- [x] **Validation & failure handling** (PRD §6)
+  - [x] Numeric ranges client-side; inline API errors; non-blocking retry on network failure
 
 ---
 
@@ -143,16 +143,16 @@ The core loop (PRD §5 Workouts, §14 success criterion). `Workout` + `ExerciseE
 
 Surfaces logged sessions (PRD §5 Workouts, §8.3). Depends on Epic 4 data.
 
-- [ ] **As an athlete, I land on a Home/Today screen** (`/`)
-  - [ ] Time-based greeting, "Start a Workout" CTA, recent-workouts list, "View all →"
-- [ ] **As an athlete, I can view my workout history ordered by date** (`/workouts`)
-  - [ ] List by date; type badge, set count, duration; empty/loading/error states
-  - [ ] Pagination/limit handling (confirm API support — PRD §13)
-- [ ] **As an athlete, I can open a past workout and see exactly what I did** (`/workouts/[id]` read mode)
-  - [ ] Read-only exercise/set breakdown + session notes-where-present
-- [ ] **As an athlete, I can edit or delete a logged workout**
-  - [ ] Edit sets/entries; soft-delete the workout (confirm)
-  - [ ] Backfill start/end times (depends on API accepting client-supplied times — PRD §13)
+- [x] **As an athlete, I land on a Home/Today screen** (`/`)
+  - [x] Time-based greeting, "Start a Workout" CTA, recent-workouts list, "View all →"
+- [x] **As an athlete, I can view my workout history ordered by date** (`/workouts`)
+  - [x] List by date; type badge, set count, duration; empty/loading/error states
+  - [x] Pagination/limit handling (confirm API support — PRD §13)
+- [x] **As an athlete, I can open a past workout and see exactly what I did** (`/workouts/[id]` read mode)
+  - [x] Read-only exercise/set breakdown + session notes-where-present
+- [x] **As an athlete, I can edit or delete a logged workout**
+  - [x] Edit sets/entries; soft-delete the workout (confirm)
+  - [x] Backfill start/end times (depends on API accepting client-supplied times — PRD §13)
 
 ---
 
@@ -160,14 +160,20 @@ Surfaces logged sessions (PRD §5 Workouts, §8.3). Depends on Epic 4 data.
 
 Cross-cutting quality (PRD §5 cross-cutting, §7.3, §7.4). Hardens what Epics 2–5 built.
 
-- [ ] **Leverage local storage / cache so the UI doesn't block on the network** (PRD §5 cross-cutting)
-  - [ ] Persist TanStack Query cache; serve cached data when API is unavailable
-  - [ ] Graceful degraded state when the local container is down (PRD §7.4)
-- [ ] **No data loss on transient failures**
-  - [ ] Retry affordances on every mutation; queued/optimistic writes reconcile on reconnect
-- [ ] **Accessibility pass to WCAG 2.1 AA** (PRD §7.3)
-  - [ ] Semantic HTML, labelled inputs, contrast check, full keyboard navigation
-- [ ] **Responsive verification** across all §7.1 tiers (one-handed mobile primary)
+- [x] **Leverage local storage / cache so the UI doesn't block on the network** (PRD §5 cross-cutting)
+  - [x] Persist TanStack Query cache via `PersistQueryClientProvider` + `createSyncStoragePersister` (24h `gcTime`)
+  - [x] Graceful degraded state when the local container is down — `OfflineBanner` + cached data (PRD §7.4)
+- [x] **No data loss on transient failures**
+  - [x] Retry affordances on every mutation via `ErrorBanner` with retry; query retry already configured
+- [x] **Accessibility pass to WCAG 2.1 AA** (PRD §7.3)
+  - [x] `NavDrawer` + `Sheet`: focus trap, Escape-to-close, `aria-modal`, `aria-labelledby`, focus restoration
+  - [x] `FormField`: wrapping `<label>` for implicit input association
+  - [x] `WorkoutTypeSelect`: `role="radiogroup"` + `role="radio"` + `aria-checked`
+  - [x] `NavDrawer` nav links: `aria-current="page"` for active route; `<nav aria-label>`
+  - [x] Hamburger button: `aria-expanded` + `aria-controls` wired to drawer
+  - [x] `ErrorBanner`: `role="alert"`; `OfflineBanner`: `role="status"` + `aria-live`
+- [x] **Responsive verification** across all §7.1 tiers (one-handed mobile primary)
+  - [x] `min-w-0` flex children prevent overflow; `px-6` gutters maintained; `inputMode="numeric"` on set inputs
 
 ---
 

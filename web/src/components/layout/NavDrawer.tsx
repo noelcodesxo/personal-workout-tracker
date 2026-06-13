@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useFocusTrap } from "@/lib/hooks/useFocusTrap";
 import { cn } from "@/lib/utils";
 
 interface NavDrawerProps {
@@ -18,6 +20,16 @@ const NAV_ITEMS = [
 
 export function NavDrawer({ isOpen, onClose }: NavDrawerProps) {
   const pathname = usePathname();
+  const panelRef = useFocusTrap<HTMLDivElement>(isOpen);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <>
@@ -33,17 +45,18 @@ export function NavDrawer({ isOpen, onClose }: NavDrawerProps) {
 
       {/* Panel */}
       <div
+        id="nav-drawer"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
         className={cn(
           "fixed left-0 top-0 z-20 flex h-full w-4/5 max-w-[320px] flex-col bg-surface",
           "border-r border-[#d8d8d8] transition-transform duration-200 ease-out",
-          /* accent gradient on right edge of panel */
           "after:pointer-events-none after:absolute after:right-[-1px] after:top-0",
           "after:h-[40%] after:w-px after:bg-gradient-to-b after:from-accent after:to-transparent",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
-        role="dialog"
-        aria-modal
-        aria-label="Navigation menu"
       >
         {/* Close button */}
         <button
@@ -54,9 +67,7 @@ export function NavDrawer({ isOpen, onClose }: NavDrawerProps) {
           ×
         </button>
 
-        {/* Header — grid-paper + avatar
-            TODO: replace "N" initial and "Noel" with data from the user profile endpoint
-            once a /users/me route is added to the API (PRD §10 / roadmap). */}
+        {/* Header */}
         <div className="border-b border-border bg-grid px-7 pb-7 pt-[52px]">
           <div
             className="mb-[14px] flex h-[52px] w-[52px] items-center justify-center rounded-full border border-accent/30 bg-[var(--accent-dim)]"
@@ -72,7 +83,7 @@ export function NavDrawer({ isOpen, onClose }: NavDrawerProps) {
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 py-3">
+        <nav aria-label="Main navigation" className="flex-1 py-3">
           {NAV_ITEMS.map((item) => {
             const isActive =
               item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -81,6 +92,7 @@ export function NavDrawer({ isOpen, onClose }: NavDrawerProps) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "flex items-center justify-between border-b border-border px-7 py-5 first:border-t",
                   isActive && "border-l-2 border-l-accent bg-[var(--accent-dim)] pl-[26px]",

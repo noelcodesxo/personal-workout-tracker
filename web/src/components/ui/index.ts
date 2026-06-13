@@ -10,5 +10,6 @@ export { Toggle } from "./Toggle";
 export { EmptyState } from "./EmptyState";
 export { ListRowSkeleton, CardSkeleton } from "./LoadingSkeleton";
 export { ErrorBanner } from "./ErrorBanner";
+export { OfflineBanner } from "./OfflineBanner";
 export { Sheet } from "./Sheet";
 export { WorkoutTypeSelect } from "./WorkoutTypeSelect";

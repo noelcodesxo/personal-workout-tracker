@@ -37,59 +37,38 @@ export interface RoutinePayload {
   routine_exercises: RoutineExercise[];
 }
 
-// Workout
+// Workout — aligned to server/data/models/workout.py
 export interface CompletedSetEntry {
-  id: number;
-  exercise_entry_id: number;
-  weight_in_lbs?: number | null;
-  rep_count?: number | null;
-  duration_in_seconds?: number | null;
-  notes?: string | null;
-}
-
-export interface CreateCompletedSetRequest {
-  weight_in_lbs?: number | null;
-  rep_count?: number | null;
-  duration_in_seconds?: number | null;
-  notes?: string | null;
-}
-
-export interface UpdateCompletedSetRequest {
-  weight_in_lbs?: number | null;
-  rep_count?: number | null;
-  duration_in_seconds?: number | null;
-  notes?: string | null;
+  weight_in_lbs: number;
+  rep_count: number;
+  duration_in_seconds: number;
+  notes: string;
 }
 
 export interface ExerciseEntry {
-  id: number;
-  workout_id: number;
-  exercise_id: number;
-  exercise?: Exercise;
+  name: string;
   completed_sets: CompletedSetEntry[];
 }
 
 export interface Workout {
   id: number;
-  user_id: string;
+  user_id: number;
   workout_type: WorkoutType;
   workout_start_time: string;
-  workout_end_time?: string | null;
-  routine_id?: number | null;
-  active: boolean;
+  workout_end_time: string | null;
+  routine_id: number | null;
   exercise_entries: ExerciseEntry[];
 }
 
 export interface CreateWorkoutRequest {
   workout_type: WorkoutType;
-  routine_id?: number;
+  user_id: number;
+  routine_id?: number | null;
 }
 
-export interface UpdateWorkoutRequest {
-  workout_type?: WorkoutType;
-  workout_start_time?: string;
+export interface LogWorkoutRequest {
   workout_end_time?: string | null;
-  active?: boolean;
+  exercise_entries: ExerciseEntry[];
 }
 
 // ── API error shape ────────────────────────────────────────────────────────────

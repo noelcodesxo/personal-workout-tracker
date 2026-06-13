@@ -96,7 +96,13 @@ export default function RoutineDetailPage({ params }: PageProps) {
         </IconButton>
       }
       bottomSticky={
-        <Button variant="primary" fullWidth disabled>
+        <Button
+          variant="primary"
+          fullWidth
+          onClick={() =>
+            router.push(`/workouts/new?routineName=${encodeURIComponent(routine.name)}`)
+          }
+        >
           Start Workout
         </Button>
       }

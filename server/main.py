@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from api.routes import (
     workout,
     exercise,
@@ -7,7 +8,19 @@ from api.routes import (
 )
 from data import DBClient
 
+origins = [
+    "http://localhost:3000"
+]
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,
+    allow_headers=["*"],
+    allow_methods=["*"]
+)
 
 app.include_router(workout.router)
 app.include_router(exercise.router)

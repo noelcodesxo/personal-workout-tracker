@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { IconButton } from "@/components/ui/IconButton";
@@ -16,6 +16,26 @@ import { NetworkError } from "@/api/types";
 import type { WorkoutType } from "@/api/types";
 
 export default function NewWorkoutPage() {
+  return (
+    <Suspense fallback={<NewWorkoutFallback />}>
+      <NewWorkoutContent />
+    </Suspense>
+  );
+}
+
+function NewWorkoutFallback() {
+  return (
+    <AppShell title="Start Workout">
+      <div className="space-y-3 px-6 pt-8">
+        {[1, 2].map((i) => (
+          <div key={i} className="h-4 animate-pulse rounded bg-gray-100" />
+        ))}
+      </div>
+    </AppShell>
+  );
+}
+
+function NewWorkoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const routineName = searchParams.get("routineName") ?? "";

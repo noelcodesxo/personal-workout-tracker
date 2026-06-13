@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useRef, useState } from "react";
+import { Suspense, use, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { IconButton } from "@/components/ui/IconButton";
@@ -25,6 +25,26 @@ interface PageProps {
 }
 
 export default function WorkoutDetailPage({ params }: PageProps) {
+  return (
+    <Suspense fallback={<WorkoutDetailFallback />}>
+      <WorkoutDetailContent params={params} />
+    </Suspense>
+  );
+}
+
+function WorkoutDetailFallback() {
+  return (
+    <AppShell title="Workout">
+      <div className="space-y-3 px-6 pt-8">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-4 animate-pulse rounded bg-gray-100" />
+        ))}
+      </div>
+    </AppShell>
+  );
+}
+
+function WorkoutDetailContent({ params }: PageProps) {
   const { id } = use(params);
   const workoutId = parseInt(id, 10);
   const router = useRouter();

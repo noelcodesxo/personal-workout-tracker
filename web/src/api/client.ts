@@ -25,6 +25,8 @@ async function parseErrorBody(res: Response): Promise<{ message: string; fieldEr
   }
 }
 
+const REQUEST_TIMEOUT_MS = 10_000;
+
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, params, headers: extraHeaders, ...rest } = options;
 
@@ -39,15 +41,21 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
     ...(extraHeaders as Record<string, string>),
   };
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
   let res: Response;
   try {
     res = await fetch(url.toString(), {
       ...rest,
       headers,
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal: controller.signal,
     });
   } catch {
     throw new NetworkError();
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!res.ok) {

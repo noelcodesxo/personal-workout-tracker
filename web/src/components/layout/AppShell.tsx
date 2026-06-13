@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TopBar } from "./TopBar";
 import { NavDrawer } from "./NavDrawer";
 import { IconButton } from "@/components/ui/IconButton";
+import { OfflineBanner } from "@/components/ui/OfflineBanner";
 import { cn } from "@/lib/utils";
 
 interface AppShellProps {
@@ -52,13 +53,20 @@ export function AppShell({
         appName={appName}
         leftSlot={
           leftSlot ?? (
-            <IconButton label="Open menu" onClick={() => setDrawerOpen(true)}>
+            <IconButton
+              label={drawerOpen ? "Close menu" : "Open menu"}
+              aria-expanded={hasDrawer ? drawerOpen : undefined}
+              aria-controls={hasDrawer ? "nav-drawer" : undefined}
+              onClick={() => setDrawerOpen(true)}
+            >
               <HamburgerIcon />
             </IconButton>
           )
         }
         rightSlot={rightSlot}
       />
+
+      <OfflineBanner />
 
       <div className={cn("flex-1 overflow-y-auto scrollbar-none", className)}>{children}</div>
 

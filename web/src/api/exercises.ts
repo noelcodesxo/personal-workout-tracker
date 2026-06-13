@@ -2,7 +2,7 @@ import { apiFetch, apiGet, apiDelete } from "./client";
 import type { Exercise } from "./types";
 
 export const exercisesApi = {
-  // GET /exercise/ — returns active exercises only
+  // GET /exercise — returns active exercises only
   list: () => apiGet<Exercise[]>("/exercise"),
 
   // GET /exercise/{name}

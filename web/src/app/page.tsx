@@ -12,21 +12,16 @@ import type { Workout } from "@/api/types";
 
 const RECENT_COUNT = 3;
 
-function greeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
+
 
 export default function HomePage() {
   const { data: workouts, isLoading, isError, refetch } = useGetWorkouts();
 
   const sorted = workouts
     ? [...workouts].sort(
-        (a, b) =>
-          new Date(b.workout_start_time).getTime() - new Date(a.workout_start_time).getTime(),
-      )
+      (a, b) =>
+        new Date(b.workout_start_time).getTime() - new Date(a.workout_start_time).getTime(),
+    )
     : [];
 
   const recent = sorted.slice(0, RECENT_COUNT);
@@ -44,7 +39,7 @@ export default function HomePage() {
       }
     >
       <div className="px-6 pt-8 pb-6">
-        <p className="font-display text-[26px] font-semibold text-ink">{greeting()}</p>
+        <p className="font-display text-[26px] font-semibold text-ink">Hello</p>
         <p className="mt-1 font-body text-[13px] text-gray-400">
           {isLoading
             ? ""
@@ -114,8 +109,8 @@ function HomeWorkoutRow({ workout }: { workout: Workout }) {
   const date = new Date(workout.workout_start_time);
   const durationSec = workout.workout_end_time
     ? Math.floor(
-        (new Date(workout.workout_end_time).getTime() - date.getTime()) / 1000,
-      )
+      (new Date(workout.workout_end_time).getTime() - date.getTime()) / 1000,
+    )
     : null;
   const setCount = workout.exercise_entries.reduce(
     (sum, e) => sum + e.completed_sets.length,
